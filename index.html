@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>지역별 공공자립발전소 타당성 · 경제성 보고서 앱</title>
+<style>
+:root{--g:#1e3a2b;--g2:#2d5a40;--bg:#f4f1ea;--ink:#162620;--muted:#5a6b63;--card:#fff;}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Pretendard","Malgun Gothic",sans-serif;background:var(--bg);color:var(--ink);}
+header{background:linear-gradient(120deg,var(--g),#0f2419);color:#f4f1ea;padding:28px 20px 22px}
+header h1{margin:0 0 6px;font-size:22px}
+header p{margin:0;opacity:.85;font-size:13px}
+main{max-width:1100px;margin:0 auto;padding:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+section{background:var(--card);border-radius:12px;padding:16px 18px;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+h2{margin:0 0 12px;font-size:15px;color:var(--g)}
+label{display:block;font-size:12px;color:var(--muted);margin:8px 0 3px}
+input,select{width:100%;padding:7px 8px;border:1px solid #d5ddd8;border-radius:8px;font-size:13px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+button{border:0;border-radius:9px;padding:10px 14px;font-weight:700;cursor:pointer;font-size:13px}
+.p{background:var(--g);color:#fff}
+.s{background:#e8f0e4;color:var(--g)}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+@media(max-width:860px){.kpi{grid-template-columns:1fr 1fr}}
+.kpi div{background:#e8f0e4;border-radius:10px;padding:10px}
+.kpi b{display:block;font-size:18px;color:var(--g)}
+.kpi span{font-size:11px;color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{border-bottom:1px solid #e6ebe8;padding:6px 4px;text-align:left}
+th{color:#fff;background:var(--g)}
+.note{font-size:12px;color:var(--muted);line-height:1.5}
+.badge{display:inline-block;background:#c4a35a;color:#1a1408;border-radius:99px;padding:2px 8px;font-size:11px;font-weight:700}
+footer{max-width:1100px;margin:0 auto 30px;padding:0 20px;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1>지역별 공공자립발전소 구축 타당성 · 경제성 앱</h1>
+  <p>비욘드에너텍  ·  하수 메탄 · 음식물 · 소각 · 산단 부착형  ·  P1/P2/P3 패키지 · 보고서 / PPT / 엑셀 출력</p>
+</header>
+<main>
+<section>
+  <h2>1. 지역 카드</h2>
+  <div class="row">
+    <div><label>자치단체</label><input id="name" value="인천광역시 검단구"></div>
+    <div><label>인구 (명)</label><input id="pop" type="number" value="273735"></div>
+  </div>
+  <div class="row">
+    <div><label>하수 시설용량 (㎥/일)</label><input id="wwCap" type="number" value="109000"></div>
+    <div><label>하수 유입 (㎥/일)</label><input id="wwIn" type="number" value="68204"></div>
+  </div>
+  <div class="row">
+    <div><label>슬러지 원단위 (g-DS/㎥)</label><input id="ds" type="number" value="28"></div>
+    <div><label>음식물 발생 (t/일)</label><input id="food" type="number" value="82"></div>
+  </div>
+  <div class="row">
+    <div><label>음식물 미계약 비율 (0~1)</label><input id="foodAvail" type="number" step="0.05" value="0.3"></div>
+    <div><label>가연 잔재 (t/일)</label><input id="msw" type="number" value="90"></div>
+  </div>
+  <div class="row">
+    <div><label>광역소각 여유 (t/일)</label><input id="incSpare" type="number" value="200"></div>
+    <div><label>자체소각 검토 용량 (t/일)</label><input id="incOwn" type="number" value="50"></div>
+  </div>
+  <div class="row">
+    <div><label>산단 가동 업체 (개)</label><input id="firms" type="number" value="1059"></div>
+    <div><label>부착 개소</label><input id="sites" type="number" value="25"></div>
+  </div>
+  <div class="row">
+    <div><label>점당 kW</label><input id="kw" type="number" value="50"></div>
+    <div><label>부착 연간 시간</label><input id="hrsAtt" type="number" value="4000"></div>
+  </div>
+  <div class="row">
+    <div><label>SMP (원/kWh)</label><input id="smp" type="number" value="110"></div>
+    <div><label>지자체 배당 (원/kWh)</label><input id="div" type="number" value="10"></div>
+  </div>
+  <div class="row">
+    <div><label>소각 반입료 (원/t)</label><input id="tip" type="number" value="120000"></div>
+    <div><label>소각 수용 (낮음/중간/높음)</label>
+      <select id="accept"><option value="low">낮음</option><option value="mid">중간</option><option value="high">높음</option></select>
+    </div>
+  </div>
+  <div class="btns">
+    <button class="p" onclick="run()">시뮬레이션</button>
+    <button class="s" onclick="dlReport()">보고서(HTML/인쇄→PDF)</button>
+    <button class="s" onclick="dlPpt()">PPT 텍스트 내려받기</button>
+    <button class="s" onclick="dlXls()">엑셀(CSV) 시뮬레이터</button>
+    <button class="s" onclick="dlJson()">입력 JSON</button>
+  </div>
+  <p class="note">브라우저만으로 동작합니다. 정적 호스팅(GitHub Pages 등)에 폴더를 올리면 공개됩니다. Word·PPTX 서식 파일은 같은 폴더의 템플릿과 앱 계산값을 붙여 씁니다.</p>
+</section>
+
+<section>
+  <h2>2. 결과 <span class="badge" id="rec">—</span></h2>
+  <div class="kpi">
+    <div><span>① 하수</span><b id="k1">—</b></div>
+    <div><span>② 음식물</span><b id="k2">—</b></div>
+    <div><span>③ 소각</span><b id="k3">—</b></div>
+    <div><span>④ 부착</span><b id="k4">—</b></div>
+  </div>
+  <table>
+    <thead><tr><th>패키지</th><th>구성</th><th>평균 MW</th><th>GWh/년</th><th>전력매출(억)</th><th>수수료(억)</th><th>1호</th></tr></thead>
+    <tbody id="tb"></tbody>
+  </table>
+  <p class="note" id="why"></p>
+</section>
+
+<section>
+  <h2>3. 고정 규칙</h2>
+  <p class="note">R1 울타리 가스 &gt; 계약 음식물 &gt; 기존 스팀 &gt; 신규 소각. R2 소각은 광역 여유가 있고 수용이 낮으면 1호 제외. R5 기존 시 시설과 원료가 겹치면 신규 건설 아님. 플래시 3.5배는 메탄 스위치만(이 화면 기본은 엔진 35%). LNG 주연료·대량 송전 회수 금지. 게이트 G0→G6.</p>
+</section>
+</main>
+<footer>내부 검토용 시뮬레이터입니다. 실측·계약·인허가 숫자가 있으면 입력값을 덮어쓰십시오. 투자 권유가 아닙니다. © Beyond Enertech process 2026.</footer>
+<script>
+function n(id){return parseFloat(document.getElementById(id).value)||0}
+function run(){
+  const wwIn=n('wwIn'), ds=n('ds')/1e6; // t-DS per m3
+  const tds=wwIn*ds;
+  const gas=tds*400; // Nm3/d
+  const th=gas*6; // kWh_th/d
+  const we=th*0.35; // kWh_e/d engine
+  const gwh1=we*7800/24/1e6;
+  const mw1=we/24/1000;
+
+  const food=n('food')*n('foodAvail');
+  const gasF=food*100;
+  const weF=gasF*6*0.35;
+  const gwh2=weF*7800/24/1e6;
+  const mw2=weF/24/1000;
+
+  const spare=n('incSpare'), own=n('incOwn'), msw=n('msw');
+  const inc = Math.min(own, msw);
+  const thI=inc*1000*9/3.6; // kWh_th/d
+  const weI=thI*0.22;
+  const gwh3=weI*7500/24/1e6;
+  const mw3=weI/24/1000;
+
+  const gwh4=n('sites')*n('kw')*n('hrsAtt')/1e6;
+  const mw4=n('sites')*n('kw')/1000*(n('hrsAtt')/8760);
+
+  const smp=n('smp')-n('div');
+  const tip=n('tip');
+  function rev(g){return g*smp/10} // 억 (GWh * 원/kWh / 10 = 억)
+  const fee=inc*365*tip/1e8;
+
+  const P1g=gwh1+gwh4, P2g=P1g+gwh2, P3g=P2g+gwh3;
+  const P1m=mw1+mw4, P2m=P1m+mw2, P3m=P2m+mw3;
+
+  const accept=document.getElementById('accept').value;
+  let first='P1', why='R1·R2: 하수+부착을 1호로 둔다.';
+  if(n('foodAvail')<=0.05) why+=' 음식물 미계약량이 거의 없어 P2 비활성.';
+  if(spare>inc && accept==='low') why+=' 광역 여유·수용 낮음 → 소각은 1호 제외.';
+  else if(accept==='high' && spare<20) {first='P3 검토'; why+=' 수용 높고 광역 여유 부족 시 소각 검토.';}
+
+  document.getElementById('k1').textContent=gwh1.toFixed(2)+' GWh';
+  document.getElementById('k2').textContent=gwh2.toFixed(2)+' GWh';
+  document.getElementById('k3').textContent=gwh3.toFixed(2)+' GWh';
+  document.getElementById('k4').textContent=gwh4.toFixed(2)+' GWh';
+  document.getElementById('rec').textContent='추천 '+first;
+  document.getElementById('why').textContent=why+'  슬러지 '+tds.toFixed(2)+' t-DS/일, 하수가스 '+gas.toFixed(0)+' Nm³/일.';
+
+  const rows=[
+    ['P1','①+④',P1m,P1g,rev(P1g),0,first==='P1'?'예':''],
+    ['P2','P1+②',P2m,P2g,rev(P2g),0,''],
+    ['P3','P2+③',P3m,P3g,rev(P3g),fee,first.includes('P3')?'검토':'후순위']
+  ];
+  document.getElementById('tb').innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2].toFixed(2)}</td><td>${r[3].toFixed(2)}</td><td>${r[4].toFixed(2)}</td><td>${r[5].toFixed(2)}</td><td>${r[6]}</td></tr>`).join('');
+  window._R={name:document.getElementById('name').value,gwh1,gwh2,gwh3,gwh4,mw1,mw2,mw3,mw4,P1g,P2g,P3g,P1m,P2m,P3m,rev1:rev(P1g),rev3:rev(P3g),fee,first,why,tds,gas,inc,food};
+  return window._R;
+}
+function dl(name,text,mime){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([text],{type:mime}));
+  a.download=name; a.click();
+}
+function dlReport(){
+  const r=run();
+  const html=`<!DOCTYPE html><html lang=ko><meta charset=utf-8><title>${r.name} 공공자립발전소 타당성</title>
+  <style>body{font-family:Malgun Gothic,sans-serif;max-width:800px;margin:40px auto;line-height:1.5}</style>
+  <h1>${r.name} 공공자립발전소 타당성·경제성</h1>
+  <p>추천 1호: ${r.first}</p><p>${r.why}</p>
+  <h2>원별</h2>
+  <ul><li>하수 ${r.gwh1.toFixed(2)} GWh (${r.mw1.toFixed(3)} MW)</li>
+  <li>음식물 ${r.gwh2.toFixed(2)} GWh</li>
+  <li>소각 ${r.gwh3.toFixed(2)} GWh (${r.inc} t/일)</li>
+  <li>부착 ${r.gwh4.toFixed(2)} GWh</li></ul>
+  <h2>패키지</h2>
+  <p>P1 ${r.P1g.toFixed(2)} GWh / ${r.rev1.toFixed(2)}억 · P3 ${r.P3g.toFixed(2)} GWh 수수료 ${r.fee.toFixed(2)}억</p>
+  <h2>절차</h2><p>G0 카드 → G1 실측 90일 → G2 원료계약 → G3 수용(소각) → G4 DSCR → G5 FID → G6 PPH 시운전</p>
+  <p>구축: 플래시보일러+마이크로터빈+PPH. LNG 주연료 없음. 소내 우선.</p>
+  <p style=color:#666>시뮬레이터 출력. 투자 권유 아님.</p>`;
+  dl(r.name.replace(/\s/g,'_')+'_공공자립발전소_보고서.html',html,'text/html');
+}
+function dlPpt(){
+  const r=run();
+  const t=`${r.name} 공공자립발전소\n\n1. 추천 ${r.first}\n${r.why}\n\n2. 원별 GWh\n하수 ${r.gwh1.toFixed(2)} / 음식물 ${r.gwh2.toFixed(2)} / 소각 ${r.gwh3.toFixed(2)} / 부착 ${r.gwh4.toFixed(2)}\n\n3. 패키지\nP1 ${r.P1g.toFixed(2)} GWh (${r.rev1.toFixed(1)}억)\nP2 ${r.P2g.toFixed(2)} GWh\nP3 ${r.P3g.toFixed(2)} GWh + 수수료 ${r.fee.toFixed(1)}억\n\n4. 방법 플래시+마이크로터빈+PPH\n5. 게이트 G0-G6\n`;
+  dl(r.name.replace(/\s/g,'_')+'_PT요지.txt',t,'text/plain');
+}
+function dlXls(){
+  const r=run();
+  const lines=[
+    '항목,값,단위',
+    '자치단체,'+r.name+',',
+    '하수_GWh,'+r.gwh1.toFixed(4)+',GWh/년',
+    '음식물_GWh,'+r.gwh2.toFixed(4)+',GWh/년',
+    '소각_GWh,'+r.gwh3.toFixed(4)+',GWh/년',
+    '부착_GWh,'+r.gwh4.toFixed(4)+',GWh/년',
+    'P1_GWh,'+r.P1g.toFixed(4)+',GWh/년',
+    'P2_GWh,'+r.P2g.toFixed(4)+',GWh/년',
+    'P3_GWh,'+r.P3g.toFixed(4)+',GWh/년',
+    'P1_전력매출억,'+r.rev1.toFixed(4)+',억원',
+    '소각수수료억,'+r.fee.toFixed(4)+',억원',
+    '추천,'+r.first+',',
+    '',
+    '시뮬_입력,셀에서 수정 후 재계산은 앱에서',
+    'SMP,110,원/kWh',
+    '배당,10,원/kWh',
+    '순단가,=B14-B15,원',
+    'P1매출재계산,='+r.P1g.toFixed(4)+'*(B16)/10,억원'
+  ];
+  dl(r.name.replace(/\s/g,'_')+'_시뮬레이터.csv',lines.join('\n'),'text/csv;charset=utf-8');
+}
+function dlJson(){
+  const o={};
+  ['name','pop','wwCap','wwIn','ds','food','foodAvail','msw','incSpare','incOwn','firms','sites','kw','hrsAtt','smp','div','tip','accept'].forEach(id=>o[id]=document.getElementById(id).value);
+  dl('region_card.json',JSON.stringify(o,null,2),'application/json');
+}
+run();
+</script>
+</body>
+</html>
